@@ -1,0 +1,1569 @@
+// code compilation and execution
+===============================================================================
+
+// compilation 
+
+// why compilation 
+// compliation phase:
+//  1. Early Error Checking
+//  2. Determining Appropriate Scope for variables (D.P.S.V)
+
+
+// code execution
+
+// How javascript code executes 
+// In JavaScript code executes inside execution context.
+// first it will create globle execution context
+//  1. memory creation phase
+//      window : {}
+//      firstName: undefined
+//      this : window
+//  2. code execution phase
+//      code will execute line by line
+
+
+
+// what is global exection context ? 
+// what is local execution context ? 
+// closures
+
+console.log(this);  // {window}
+console.log(window);  // {window}
+console.log(firstName);  // undefined
+var firstName = "harsh";  
+console.log(firstName);  // harsh
+
+
+
+
+
+// What happens to function declarations ? 
+===================================================================
+
+// hoisting : in javascript, hoisting allows you to use functions and variables before they are declared.
+// Hoisting is the default behavior of moving all the declarations at the top of the scope before code execution.
+
+console.log(this);  // {window}
+console.log(window);  // {window}
+console.log(myFuncrion);  // myFunction(){console.log("this is my function")};
+console.log(firstName);  // undefined
+console.log(lastName);  // undefined
+console.log(FullName);  // undefined
+
+function myFuncrion(){
+    console.log("this is my function");
+}
+
+var firstName = "Rahul";
+var lastName = "Sharma";
+var FullName = firstName + " " + lastName;
+console.log(firstName);  // Rahul
+console.log(lastName);  // Sharma
+console.log(FullName);  // Rahul Sharma
+
+
+
+
+
+// What happens to function expressions ? 
+============================================================================
+
+console.log(myFuncrion1);  // undefined. because myFunction1 is created with var keyword.
+
+// function expression with var
+var myFuncrion1 = function(){
+    console.log("this is my function1");
+}
+
+console.log(myFuncrion1);  // myFunction1(){console.log("this is my function1")}
+
+
+
+
+// hoisted
+=======================================================================
+
+// Are let and const are hoisted ? 
+// let and const are hoisted. it will store the variables and functions in globle memory and its value is uninitialised.
+// it cannot be accessible before initialization.
+console.log(firstName);  // Uncaught ReferenceError: Cannot access 'firstName' before initialization
+let firstName = "mohit";
+console.log(firstName);
+console.log(myFuncrion2);  // Uncaught ReferenceError: Cannot access 'myFuncrion2' before initialization
+
+// function expression with let
+let myFuncrion2 = function(){
+    console.log("this is my function2");
+}
+
+console.log(myFuncrion2);  // myFunction2(){console.log("this is my function2")}
+
+
+
+
+
+
+// Function execution context
+====================================================================
+
+// whenever a function is called, the JavaScript engine creates a different type of Execution Context known as Function Execution Context(FEC) within the Globle Execution Context(GEC) to evaluate and execute the code within that function.
+
+let foo = "foo";
+console.log(foo);
+function getFullName(firstName, lastName){
+    console.log(arguments);
+    let myVar = "var inside func";
+    console.log(myVar);
+    const fullName = firstName + " " + lastName;
+    return fullName;
+}
+
+const personName = getFullName("mohit", "sharma");
+console.log(personName);
+
+
+
+
+
+// lexical environment, scope chain
+===========================================================================================
+
+// lexical environment is a specification type used to define the association of identifiers to specific variables and functions.
+
+// scope chain: javascript engine uses scopes to find out the exact location or accessibility of variables and that perticular process is known as scope chain.
+
+const lastName = "sharma";
+
+const printName = function(){
+    const firstName = "mohit";
+    function myFunction(){
+        console.log(firstName);
+        console.log(lastName);
+    }
+    myFunction();
+}
+printName()
+
+
+
+
+
+
+// closures
+===========================================================================
+
+// closure is a feature of JavaScript that allows inner functions to access the outer scope of a function.
+// a closure gives you access to an outer function's scope from an inner function.
+
+// closure : 30-40%
+// analyse : 70-80%
+// real example : 100%
+
+
+// function can return functions
+
+// function outerFunction(){
+//     function innerFunction(){
+//         console.log("hello world")
+//     }
+//     return innerFunction;
+// }
+
+// const ans = outerFunction();
+// // console.log(ans);
+// ans();
+
+
+function printFullName(firstName, lastName){
+    function printName(){
+        console.log(firstName, lastName);
+    }
+    return printName;
+}
+
+const ans = printFullName("harshit", "sharma");
+console.log(ans);
+ans();
+
+
+
+
+
+
+// closure example 1
+==========================================================================================
+
+function hello(x){
+    const a = "varA";
+    const b = "varB";
+    return function(){
+        console.log(a,b,x);
+    }
+}
+
+const ans = hello("args");
+ans();
+
+
+
+
+
+// closure example 2
+===============================================================================
+
+// function myFunction(power){
+//     return function(number){
+//         return number ** power;
+//     }
+// }
+
+// const cube = myFunction(3);
+// const ans = cube(2);
+// console.log(ans);  // 2 ** 3 = 8
+
+// const square = myFunction(2);
+// const ans2 = square(3);
+// console.log(ans2);  // 3 ** 2 = 9
+
+
+const myFunction = (power) => {
+    return (number) => {
+        return number ** power;
+    }
+}
+
+const cube = myFunction(3);
+const ans = cube(2);
+console.log(ans);  // 2 ** 3 = 8
+
+const square = myFunction(2);
+const ans2 = square(3);
+console.log(ans2);  // 3 ** 2 = 9
+
+
+
+
+
+
+// closure example 3
+=======================================================================
+
+function func(){
+    let counter = 1;
+    return function(){
+        if(counter === 1){
+            console.log("Hi you called me");
+            counter++;
+        }else{
+            console.log("you already called me once");
+        }
+    }
+}
+
+const myFunc = func();
+myFunc();
+myFunc();
+
+const myFunc2 = func();
+myFunc2();
+myFunc2();
+
+
+
+
+
+
+
+===============================================================================================
+===============================================================================================
+
+DOM (Document Object Model)
+=======================================================================================
+
+index.html:
+=======================================================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <!-- <script src="01-correct-way-of-linking-js-file.js" async></script> -->
+    <script src="01-correct-way-of-linking-js-file.js" defer></script>
+    <title>My Website</title>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <h1 class="logo">Website</h1>
+            <ul class="nav-item">
+                <li><a href="">Home</a></li>
+                <li><a href="">Todo</a></li>
+                <li><a href="">Sign Up</a></li>
+            </ul>
+        </nav>
+        <div class="headline">
+            <h2 id="main-heading">Manage your tasks</h2>
+            <button class="btn btn-headline">Learn More</button>
+        </div>
+    </header>
+    <section class="todo-section container">
+        <h2>Your plan for today ?</h2>
+        <form class="form-todo">
+            <input type="text" name="" id="" placeholder="Add Todo">
+            <input type="submit" value="Add Todo" class="btn">
+        </form>
+    </section>
+
+    <section class="signup-section container">
+        <h2>Sign Up</h2>
+        <form class="signup-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username">
+            </div>
+            <div class="form-group">
+                <label for="password">password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <div class="form-group">
+                <label for="conformPassword">Conform Password</label>
+                <input type="password" name="conformPassword" id="conformPassword">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="number" name="phone" id="phone">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email">
+            </div>
+            <div class="form-group">
+                <label for="About">About Yourself</label>
+                <textarea name="About" id="About" cols="30" rows="10"></textarea>
+            </div>
+            <button type="submit" class="btn signup-btn">Submit</button>
+        </form>
+    </section>
+</body>
+</html>
+
+===================================================================================
+
+styles.css:
+==================================================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+.header{
+    min-height: 60vh;
+    background: url("./bg-image.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    position: relative;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.container{
+    max-width: 1200px;
+    margin: auto;
+    width: 90%;
+}
+
+.nav{
+    min-height: 8vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-item{
+    width: 40%;
+    display: flex;
+    list-style-type: none;
+    justify-content: space-between;
+}
+.headline{
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.btn{
+    display: inline-block;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+.btn-headline{
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+    font-weight: 600;
+}
+.todo-section{
+    margin-top: 5rem;
+    text-align: center;
+}
+.form-todo{
+    min-height: 5vh;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+.form-todo input{
+    min-height: 100%;
+}
+.form-todo input[type="text"]{
+    width: 78%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    font-weight: 400;
+}
+.form-todo input[type="submit"]{
+    width: 20%;
+    background-color: #28343b;
+    color: white;
+    font-weight: bold;
+}
+
+.signup-section{
+    margin: 5rem auto;
+    text-align: center;
+    background-color: rgb(225, 220, 220);
+    border-radius: 10px;
+    padding: 1rem;
+}
+.signup-form{
+    max-width: 800px;
+    width: 95%;
+    text-align: left;
+    margin: auto;
+}
+.signup-form label{
+    display: block;
+}
+.signup-form input{
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+}
+.form-group{
+    margin-top: 1rem;
+}
+.signup-form textarea{
+    width: 100%;
+}
+.signup-btn{
+    background-color: #28343b;
+    color: white;
+    padding: 1rem 2rem;
+    display: block;
+    margin: auto;
+    margin-top: 1rem;
+}
+
+
+========================================================================================
+
+
+Async vs Defer | Correct way of linking JS file
+=======================================================
+
+// Correct way of linking JS file
+
+// Async vs Defer
+//  Async allows your script to run as soon as its loaded, without blocking other elements on the page.
+//  Defer means your script will only execute after the page has finished loading
+
+
+
+
+
+// DOM (Document Object Model)
+================================================================
+
+// DOM is basically the representation of the same HTML document but in a different format with the use of object.
+// DOM is a programming interface that allows us to create, change, or remove elements from the document. We can also add events to these elements to make our page more dynamic.
+
+// console.log(window.document);
+// console.log(document);
+// console.dir(document);
+
+
+
+
+
+// select element using get element by id
+===========================================================================
+
+const mainHeading = document.getElementById("main-heading");
+console.log(mainHeading);  // <h2 id="main-heading">Manage your tasks</h2>
+
+
+
+
+// select elements using query selector
+===================================================================================
+
+// const mainHeading = document.getElementById("main-heading");
+const mainHeading = document.querySelector("#main-heading");
+const header = document.querySelector(".header");
+const navItem = document.querySelectorAll(".nav-item");
+// console.log(mainHeading);  // <h2 id="main-heading">Manage your tasks</h2>
+// console.log(header);
+console.log(navItem);
+
+
+
+
+
+// change text
+// textContent and innerText
+===========================================================================
+
+// both are almost simillar
+
+// textContent: textContent is a property used to get or change the text content.
+
+// innerText: innerText property used to sets or returns the text content of an element.
+
+const mainHeading = document.getElementById("main-heading");
+console.log(mainHeading.textContent);  // Manage your tasks
+console.log(mainHeading.innerText);  // Manage your tasks
+mainHeading.textContent = "This is something else";
+console.log(mainHeading.textContent);  // This is something else
+
+
+
+
+
+// change the styles of elements
+=======================================================================
+
+const mainHeading = document.querySelector("#main-heading")
+// console.log(mainHeading.style);
+mainHeading.style.color = "blue";
+mainHeading.style.backgroundColor = "white";
+mainHeading.style.border = "2px solid green";
+
+
+
+
+// get and set attribute
+========================================================================
+
+// setAttribute() method used to sets a new value to an attribute. if the attribute doesnot exist, it is created first.
+
+// getAttribute() method used to return the value of specified attribute of the element.
+
+const link = document.querySelector("a")  // it will select 1st anchor element
+console.log(link.getAttribute("href"));  // #home
+console.log(link.getAttribute("href").slice(1));  // home
+
+// const inputElement = document.querySelector(".form-todo input");
+// console.log(inputElement.getAttribute("type"));  // text
+
+link.setAttribute("href", "https://codprog.com");
+console.log(link.getAttribute("href"));  // https://codprog.com
+
+
+
+
+
+// get multiple elements using getElementsByClassName
+// get multiple elements using querySelectorAll
+=======================================================================================
+
+// const navItems = document.getElementsByClassName("nav-item");  // HTMLCollection
+// console.log(navItems);
+// console.log(navItems[0]);
+// console.log(navItems[1]);
+// console.log(navItems[2]);
+
+const navItems = document.querySelectorAll(".nav-item");  // NodeList
+console.log(navItems);
+console.log(navItems[0]);
+console.log(navItems[1]);
+console.log(navItems[2]);
+
+
+
+
+
+
+// iterate elements
+=========================================================================================
+
+// get multiple elements using getElementsByClassName
+// get multiple elements using querySelectorAll
+
+// array like object ---> indexing, length property 
+
+// let navItems = document.getElementsByTagName("a");  // HTMLCollection
+// console.log(navItems);
+
+// we can't use forEach method to iterate through HTMLCollection
+// simple for loop
+// for of loop
+
+// for(let i = 0; i < navItems.length; i++){
+//     // console.log(navItems[i]);
+//     const navItem = navItems[i];
+//     navItem.style.backgroundColor = "#fff";
+//     navItem.style.color = "green";
+//     navItem.style.fontWeight = "bold";
+// }
+
+// for(let navItem of navItems){
+//     navItem.style.backgroundColor = "#fff";
+//     navItem.style.color = "green";
+//     navItem.style.fontWeight = "bold";
+// }
+
+// change HTMLCollection to Array
+// navItems = Array.from(navItems);
+// console.log(Array.isArray(navItems));  // true
+// navItems.forEach((navItem) => {
+//     navItem.style.backgroundColor = "#fff";
+//     navItem.style.color = "green";
+//     navItem.style.fontWeight = "bold";
+// })
+
+// const navItems = document.querySelectorAll(".nav-item");  // NodeList
+// console.log(navItems);
+// console.log(navItems[0]);
+// console.log(navItems[1]);
+// console.log(navItems[2]);
+
+let navItems = document.querySelectorAll("a");   // NodeList
+console.log(navItems);
+// simple for loop
+// for of loop
+// forEach
+
+// for(let i = 0; i < navItems.length; i++){
+//     // console.log(navItems[i]);
+//     const navItem = navItems[i];
+//     navItem.style.backgroundColor = "#fff";
+//     navItem.style.color = "green";
+//     navItem.style.fontWeight = "bold";
+// }
+
+// for(let navItem of navItems){
+//     navItem.style.backgroundColor = "#fff";
+//     navItem.style.color = "green";
+//     navItem.style.fontWeight = "bold";
+// }
+
+navItems.forEach((navItem) => {
+    navItem.style.backgroundColor = "#fff";
+    navItem.style.color = "green";
+    navItem.style.fontWeight = "bold";
+})
+
+// change NodeList to Array
+navItems = Array.from(navItems);
+console.log(Array.isArray(navItems));  // true
+
+
+
+
+
+
+// innerHTML
+==================================================================================
+
+// The innerHTML property returns: The text content of the element, including all spacing and inner HTML tags.
+
+// The innerText property returns: Just the text content of the element and all its children, without CSS hidden text spacing and tags, except <script> and <style> elements.
+
+// The textContent property returns: The text content of the element and all descendaces, with spacing and CSS hidden text, but without tags.
+
+
+const headline = document.querySelector(".headline");
+console.log(headline.innerHTML);
+headline.innerHTML = "<h1> Inner html changed <h1>";
+headline.innerHTML += "<button class= \"btn\"> Learn More <button>";
+console.log(headline.innerHTML);
+
+
+
+
+
+
+// Traversing DOM Tree
+======================================================================================
+
+// DOM Traversal is the act of selecting nodes in the DOM tree from other nodes.
+
+// const rootNode = document.getRootNode();
+// console.log(rootNode);  // #document object
+// console.log(rootNode.childNodes);  // NodeList [html]
+// const htmlElementNode = rootNode.childNodes[0];
+// console.log(htmlElementNode);
+// console.log(htmlElementNode.childNodes); // NodeList(3) [head, text, body]
+// const headElementNode = htmlElementNode.childNodes[0];
+// const textNode1 = htmlElementNode.childNodes[1];
+// const bodyElementNode = htmlElementNode.childNodes[2];
+// console.log(headElementNode);  // head
+// console.log(textNode1);
+// console.log(bodyElementNode);
+
+// console.log(headElementNode.parentNode);  // html
+
+// // siblings relationship
+// console.log(headElementNode);  // head
+// console.log(headElementNode.nextSibling);  // #text
+// console.log(headElementNode.nextSibling.nextSibling);  // body
+// console.log(headElementNode.nextElementSibling);  // body
+
+// console.log(headElementNode.childNodes);  // NodeList(5) [text, title, text, script, text]
+
+
+// const h1 = document.querySelector("h1");
+// console.log(h1);
+// console.log(h1.parentNode);
+// const div = h1.parentNode;
+// div.style.color = "#efefef";
+// div.style.backgroundColor = "#333";
+// const body = h1.parentNode.parentNode;
+// body.style.color = "#efefef";
+// body.style.backgroundColor = "#333";
+
+
+// const body = document.body;
+// body.style.color = "#efefef";
+// body.style.backgroundColor = "#333";
+
+
+// const head = document.querySelector("head");
+// console.log(head);
+// const title = head.querySelector("title");
+// console.log(title);
+// console.log(title.childNodes);
+
+
+const container = document.querySelector(".container");
+console.log(container);
+console.log(container.childNodes);  // NodeList(5) [text, h1, text, p, text]
+console.log(container.children);   // HTMLCollection(2) [h1, p]
+
+
+
+
+
+// classList, add and remove, toggle classes
+=============================================================================================
+
+// classList property returns the CSS classnames of an element as a DOMTokenList.
+// This object has some well-known methods including contains(), add(), remove(), and toggle().
+
+// contains(): This method returns a boolean value indicating if a particular class name is present or not.
+
+// add(): This method is used to add one or more class names to an element.
+
+// remove(): This method is used to remove one or more class names from an element.
+
+// toggle(): The toggle() method of the DOMTokenList interface removes an existing token from the list. If the token doesn't exist it's added to the list.
+
+
+// const sectionTodo = document.querySelector(".todo-section");
+// console.log(sectionTodo);
+// console.log(sectionTodo.classList);  // DOMTokenList(2) ['todo-section', 'container', value: 'todo-section container']
+
+// add class
+// sectionTodo.classList.add('bg-dark');
+
+// remove class
+// sectionTodo.classList.remove("container");
+
+// check specified class exist or not
+// const ans = sectionTodo.classList.contains("container");
+// console.log(ans);  // true
+
+// toggle class
+// sectionTodo.classList.toggle("bg-dark");
+// sectionTodo.classList.toggle("bg-dark");
+
+
+
+
+
+
+// Add new elements to page
+=================================================================================
+
+
+// innerHTML to add html element
+
+const todoList = document.querySelector(".todo-list")
+// console.log(todoList);
+// console.log(todoList.innerHTML);
+// todoList.innerHTML = "<li>New Todo</li>";
+// todoList.innerHTML += "<li>New Todo</li>";
+// todoList.innerHTML += "<li>Teach Students</li>";
+
+// when you should use it, when you should not
+
+
+
+
+
+// createElement, append, prepend, remove, before, after
+===========================================================================================
+
+// In an HTML document, the document.createElement() method creates the HTML element specified by tagName
+
+// const newTodoItem = document.createElement("li");
+// newTodoItem.textContent = "Teach Students";
+// const todoList = document.querySelector(".todo-list");
+// todoList.append(newTodoItem); // add last
+// todoList.prepend(newTodoItem); // add start
+// console.log(newTodoItem);
+
+// const todo1 = document.querySelector(".todo-list li");
+// todo1.remove();
+// console.log(todo1);
+
+
+// before
+// after
+
+// const newTodoItem = document.createElement("li");
+// newTodoItem.textContent = "Teach Students";
+// const todoList = document.querySelector(".todo-list");
+// // todoList.before(newTodoItem);
+// todoList.after(newTodoItem);
+
+
+
+
+
+// elem.insertAdjacentHTML(where, html)
+===========================================================
+// beforebegin
+// afterbegin;
+// beforeend;
+// afterend;
+
+// const todoList = document.querySelector(".todo-list");
+// todoList.insertAdjacentHTML("beforeend", "<li>Teach Students</li>");
+// todoList.insertAdjacentHTML("afterbegin", "<li>Teach Students2</li>");
+// todoList.insertAdjacentHTML("beforebegin", "<li>Teach Students3</li>");
+// todoList.insertAdjacentHTML("afterend", "<li>Teach Students4</li>");
+
+
+
+
+
+// Clone Nodes
+=================================================================================
+
+// The cloneNode() method creates a copy of a node, and returns the clone.
+// The cloneNode() method clones all attributes and their values.
+// Set the deep parameter to true if you also want to clone descendants (children).
+
+const ul = document.querySelector(".todo-list");
+const li = document.createElement("li");
+li.textContent = "new todo";
+const li2 = li.cloneNode(true);
+ul.append(li);
+ul.prepend(li2);
+
+
+
+
+
+
+// static list vs live list
+================================================================================
+
+// querySelectorAll will give static list and getElementsBySomthing will give live list.
+
+// static list
+// const listItems = document.querySelectorAll(".todo-list li");
+// const sixthLi = document.createElement("li");
+// sixthLi.textContent = "item 6";
+// const ul = document.querySelector(".todo-list");
+// ul.append(sixthLi);
+// console.log(listItems);
+
+// live list
+const ul = document.querySelector(".todo-list");
+const listItems = ul.getElementsByTagName("li");
+const sixthLi = document.createElement("li");
+sixthLi.textContent = "item 6";
+ul.append(sixthLi);
+console.log(listItems);
+
+
+
+
+
+// intro to events
+============================================================================
+
+// Events in javascript provide a dynamic interface to a webpage. These events are connected to elements in the document object model (DOM).bg-dark
+
+// click event
+// three way to add events to the html
+
+const btn = document.querySelector(".btn-headline");
+
+// method --> addEventListener
+
+// function clickMe(){
+//     console.log("You clicked me!!!");
+// }
+
+btn.addEventListener("click", () => {
+    console.log("You clicked me!!!");
+});
+
+
+
+
+
+
+// This keyword inside eventListener callback
+==================================================================
+
+// The value of "this" within the handler
+
+// value of this using normal:
+// When attaching a handler function to an element using addEventListener() , the value of this inside the handler will be a reference to the element.
+// It will be the same as the value of the currentTarget property of the event argument that is passed to the handler.
+
+// value of this using arrow function will be window onject
+
+const btn = document.querySelector(".btn-headline");
+console.log(btn);
+
+btn.addEventListener("click", () => {
+    console.log("You clicked me!!!");
+    console.log("value of this");
+    console.log(this);
+});
+
+
+
+
+
+
+// Click event on multiple buttons
+======================================================================================
+
+// const firstButton = document.querySelector("#one");
+// firstButton.addEventListener("click", () => {
+//     console.log("you clicked me !!!");
+// });
+
+const allButtons = document.querySelectorAll("button");
+// console.log(allButtons);
+
+// for(let button of allButtons){
+//     button.addEventListener("click", function(){
+//         // console.log("you clicked me !!!");
+//         console.log(this);
+//         console.log(this.textContent);
+//     })
+// }
+
+// for(let i = 0; i < allButtons.length; i++){
+//     allButtons[i].addEventListener("click", function(){
+//         console.log(this);
+//     })
+// }
+
+allButtons.forEach(function(button){
+    button.addEventListener("click", function(){
+        console.log(this);
+    })
+})
+
+
+
+
+
+
+
+// Events Behind the scenes
+===================================================================================
+
+console.log("Script start !!!");
+
+const allButtons = document.querySelectorAll(".my-buttons button");
+
+allButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        let num = 0;
+        for(let i = 0; i <= 1000000000; i++){
+            num += i;
+        }
+        console.log(e.currentTarget.textContent, num);
+    })
+})
+
+let outerVar = 0;
+for(let i = 0; i<= 100000000; i++){
+    outerVar += i;
+}
+console.log("value of outer variable is ", outerVar);
+
+console.log("Script end !!!");
+
+
+
+
+
+
+// little practice with click events
+============================================================================
+
+const allButtons = document.querySelectorAll(".my-buttons button");
+// console.log(allButtons.length);
+
+allButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        // console.log(e.target);
+        e.target.style.backgroundColor = "yellow";
+        e.target.style.color = "#333";
+    })
+})
+
+
+
+
+
+
+// Little Demo Project:
+====================================================================================
+===================================================================================
+
+html code:
+=======================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="little-demo.css">
+    <script src="26-little-demo-project.js" defer></script>
+    <title>little demo project</title>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <h1>Current Color : <span class="current-color">rgb(255,255,255)</span> </h1>
+            <button>Change Background Color</button>
+        </div>
+    </main>
+</body>
+</html>
+
+
+
+css code:
+=========================================================
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    font-family: Arial, sans-serif;
+}
+
+main{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+h1{
+    padding: 1rem 2rem;
+    background-color: #333;
+    color: #efefef;
+    border-radius: 1rem;
+}
+
+button{
+    padding: 1rem 2rem;
+    font-size: 1.4rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    border: none;
+    outline: none;
+    transition: background 0.4s;
+}
+
+button:hover{
+    background-color: rgb(214, 214, 214);
+}
+
+
+
+JS code:
+==================================================
+// little demo project
+
+const mainButton = document.querySelector("button");
+const body = document.body;
+const currentColor = document.querySelector(".current-color");
+
+function ramdomColorGenerator(){
+    const red = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+    const randomColor = `rgb(${red}, ${green}, ${blue})`;
+    return randomColor;
+}
+
+mainButton.addEventListener("click",() => {
+    const randomColor = ramdomColorGenerator();
+    body.style.backgroundColor = randomColor;
+    currentColor.textContent = randomColor;
+})
+
+
+
+
+
+
+
+
+// keypress event
+// mouseover event
+// mouseleave event
+=========================================================================================
+
+const body = document.body;
+
+const mainButton = document.querySelector(".btn-headline");
+
+body.addEventListener("keypress", (e) => {
+    console.log(e.key);
+});
+
+mainButton.addEventListener("mouseover", () => {
+    console.log("mouseover event occured !!!");
+});
+
+mainButton.addEventListener("mouseleave", () => {
+    console.log("mouseleave event occured !!!");
+});
+
+
+
+
+
+
+
+// Event bubbling / event propogation 
+// Event Capturing
+==========================================================================================
+
+// Event Capturing is opposite to event bubbling, where in event capturing, an event moves from the outermost element to the target. 
+// Otherwise, in case of event bubbling, the event movement begins from the target to the outermost element in the file.
+
+console.log("hello")
+
+const grandparent = document.querySelector(".grandparent");
+const parent = document.querySelector(".parent");
+const child = document.querySelector(".child");
+
+// Event Capturing
+child.addEventListener("click", () => {
+    console.log("capture !!! child");
+}, true);
+
+parent.addEventListener("click", () => {
+    console.log("capture !!! parent");
+}, true);
+
+grandparent.addEventListener("click", () => {
+    console.log("capture !!! grandparent");
+}, true);
+
+document.body.addEventListener("click", () => {
+    console.log("capture !!! document.body");
+}, true);
+
+
+// Event bubbling / event propogation 
+
+child.addEventListener("click", () => {
+    console.log("bubble child");
+});
+
+parent.addEventListener("click", () => {
+    console.log("bubble parent");
+});
+
+grandparent.addEventListener("click", () => {
+    console.log("bubble grandparent");
+});
+
+document.body.addEventListener("click", () => {
+    console.log("bubble document.body");
+});
+
+
+
+
+
+
+
+
+// Event Delegation
+==========================================================================================
+
+// Event Delegation is basically a pattern to handle events efficiently. 
+// Instead of adding an event listener to each and every similar element, 
+// we can add an event listener to a parent element and call an event on a particular target using the .target property of the event object.
+
+const grandparent = document.querySelector(".grandparent");
+
+grandparent.addEventListener("click", (e) => {
+    console.log(e.target);
+});
+
+
+
+
+
+
+
+
+// Project Using Event Delegation
+===================================================================================
+JavaScript code:
+================================================
+
+// preventDefault() : the preventDefault() method is used to stop/prevent the browser from executing the default action of the selected element.
+
+const todoForm = document.querySelector(".form-todo");
+const todoInput = document.querySelector(".form-todo input[type='text']");
+const todoList = document.querySelector(".todo-list");
+
+todoForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let newTodoText = todoInput.value;
+    const newLi = document.createElement("li");
+    const newLiInnerHtml = `
+        <span class="text">${newTodoText}</span>
+        <div class="todo-buttons">
+            <button class="todo-btn done">Done</button>
+            <button class="todo-btn remove">Remove</button>
+        </div>`;
+    newLi.innerHTML = newLiInnerHtml;
+    todoList.append(newLi);
+    newTodoText = "";
+});
+
+todoList.addEventListener("click", (e) => {
+    // check if user clicked on done button
+    if(e.target.classList.contains("done")){
+        const liSpan = e.target.parentNode.previousElementSibling;
+        liSpan.style.textDecoration = "line-through";
+    }
+    if(e.target.classList.contains("remove")){
+        const targetedLi = e.target.parentNode.parentNode;
+        targetedLi.remove();
+    }
+})
+
+
+
+
+index.html
+=============================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <!-- <script src="01-correct-way-of-linking-js-file.js" async></script> -->
+    <!-- <script src="02-dom.js" defer></script> -->
+    <!-- <script src="03-dom-getElementById.js" defer></script> -->
+    <!-- <script src="04-dom-querySelector.js" defer></script> -->
+    <!-- <script src="05-textContent-and-innerText.js" defer></script> -->
+    <!-- <script src="06-changeTheStylesOfElements.js" defer></script> -->
+    <!-- <script src="07-get-and-set-attribute.js" defer></script> -->
+    <!-- <script src="08-querySelectorAll-and-getElementsByClassName.js" defer></script> -->
+    <!-- <script src="09-iterate-element.js" defer></script> -->
+    <!-- <script src="10-innerHTML.js" defer></script> -->
+    <!-- <script src="12-classList.js" defer></script> -->
+    <!-- <script src="13-add-html-element-using-JS.js" defer></script> -->
+    <!-- <script src="14-createElement-append-prepend.js" defer></script> -->
+    <!-- <script src="15-insertAdjacentHTML.js" defer></script> -->
+    <!-- <script src="16-clone-nodes.js" defer></script> -->
+    <!-- <script src="18-staticList-vs-liveList.js" defer></script> -->
+    <!-- <script src="19-dimensionOfElement.js" defer></script> -->
+    <!-- <script src="20-events-intro.js" defer></script> -->
+    <!-- <script src="21-this-keyword-inside-addEventListener.js" defer></script> -->
+    <!-- <script src="27-keypress-and-mouseover-event.js" defer></script> -->
+    <script src="30-project-using-event-delegation.js" defer></script>
+    <title>My Website</title>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <h1 class="logo">Website</h1>
+            <ul class="nav-items">
+                <li class="nav-item"><a href="#home">Home</a></li>
+                <li class="nav-item"><a href="">Todo</a></li>
+                <li class="nav-item"><a href="">Sign Up</a></li>
+            </ul>
+        </nav>
+        <div class="headline">
+            <h2 id="main-heading">Manage your tasks <span style="display: none;">Hello</span></h2>
+            <button class="btn btn-headline">Learn More</button>
+        </div>
+    </header>
+
+    <section class="todo-section container">
+        <h2>Your plan for today ?</h2>
+
+        <form class="form-todo">
+            <input type="text" name="" id="" placeholder="Add Todo">
+            <input type="submit" value="Add Todo" class="btn">
+        </form>
+
+        <ul class="todo-list">
+            <li>
+                <span class="text">Do this</span>
+                <div class="todo-buttons">
+                    <button class="todo-btn done">Done</button>
+                    <button class="todo-btn remove">Remove</button>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <section class="signup-section container">
+        <h2>Sign Up</h2>
+        <form class="signup-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username">
+            </div>
+            <div class="form-group">
+                <label for="password">password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <div class="form-group">
+                <label for="conformPassword">Conform Password</label>
+                <input type="password" name="conformPassword" id="conformPassword">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="number" name="phone" id="phone">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email">
+            </div>
+            <div class="form-group">
+                <label for="About">About Yourself</label>
+                <textarea name="About" id="About" cols="30" rows="10"></textarea>
+            </div>
+            <button type="submit" class="btn signup-btn">Submit</button>
+        </form>
+    </section>
+</body>
+</html>
+
+
+
+
+
+styles.css
+=============================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+.header{
+    min-height: 60vh;
+    background: url("./bg-image.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    position: relative;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.container{
+    max-width: 1200px;
+    margin: auto;
+    width: 90%;
+}
+
+.nav{
+    min-height: 8vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-items{
+    width: 40%;
+    display: flex;
+    list-style-type: none;
+    justify-content: space-between;
+}
+.headline{
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.btn{
+    display: inline-block;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+.btn-headline{
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+    font-weight: 600;
+}
+.todo-section{
+    margin-top: 5rem;
+    text-align: center;
+}
+.bg-dark{
+    background-color: black;
+    color: white;
+}
+.form-todo{
+    min-height: 5vh;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+.form-todo input{
+    min-height: 100%;
+}
+.form-todo input[type="text"]{
+    width: 78%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    font-weight: 400;
+}
+.form-todo input[type="submit"]{
+    width: 20%;
+    background-color: #28343b;
+    color: white;
+    font-weight: bold;
+}
+.todo-list{
+    text-align: left;
+    font-size: 1.2rem;
+    list-style-type: none;
+}
+.todo-list li{
+    padding: 0.7rem;
+    background-color: #444;
+    color: white;
+    margin-top: 1rem;
+    text-transform: capitalize;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.todo-btn{
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.signup-section{
+    margin: 5rem auto;
+    text-align: center;
+    background-color: rgb(225, 220, 220);
+    border-radius: 10px;
+    padding: 1rem;
+}
+.signup-form{
+    max-width: 800px;
+    width: 95%;
+    text-align: left;
+    margin: auto;
+}
+.signup-form label{
+    display: block;
+}
+.signup-form input{
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+}
+.form-group{
+    margin-top: 1rem;
+}
+.signup-form textarea{
+    width: 100%;
+}
+.signup-btn{
+    background-color: #28343b;
+    color: white;
+    padding: 1rem 2rem;
+    display: block;
+    margin: auto;
+    margin-top: 1rem;
+}
+
+
+
+
+
+
+
+
+

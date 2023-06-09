@@ -1,0 +1,815 @@
+// asynchronous programming
+=========================================================================================
+=========================================================================================
+
+// JavaScript is a synchronous programming single threaded language
+
+// console.log("script started");  // 1st
+
+// for(let i = 0; i < 10000; i++){
+//     console.log("inside for loop");  // 2nd
+// }
+
+// console.log("script end");  // 3rd
+
+// synchronous programming vs asynchronous programming
+
+// synchronous programming:
+// every statement of the code gets executed one by one. So, basically a statement has to wait for the earlier statement to get executed.
+
+// asynchronous programming:
+// Asynchronous code allows the program to be executed immediately where the synchronous code will block further execution of the remaining code until it finishes the current one.
+
+
+
+
+// setTimeout
+==========================================================================
+// setTimeout() method is an asynchronous function and it takes function as 1st parameter and specified time as 2nd parameter.
+// setTimeout() method is used to execute a function after waiting for the specified time interval.
+
+// console.log("script start");
+// function hello(){
+//     console.log("hello world");
+// }
+// setTimeout(hello, 1000);
+// console.log("script end");
+
+// output:
+// script start
+// script end
+// hello world
+
+// console.log("script start");
+// setTimeout(() => {
+//     console.log("inside setTimeout")
+// }, 1000);
+// console.log("script end");
+
+// output:
+// script start
+// script end
+// inside setTimeout
+
+// console.log("script start");  // 1
+// setTimeout(() => {
+//     console.log("inside setTimeout");  // 4
+// }, 0);
+// for(let i = 0; i <= 100; i++){
+//     console.log("....");  // 2
+// }
+// console.log("script end");  // 3
+
+// output:
+// script start
+// .... x 100
+// script end
+// inside setTimeout 
+
+
+console.log("script start");
+const id = setTimeout(() => {
+    console.log("inside setTimeout");
+}, 0);
+for(let i = 0; i <= 100; i++){
+    console.log("....");
+}
+console.log("setTimeout id is ", id);
+console.log("clearing time out");
+clearTimeout(id);  // it means inside setTimeout will not execute
+console.log("script end");
+
+// output:
+// script start
+// .... x 100
+// setTimeout id is  1
+// clearing time out
+// script end
+
+
+
+
+
+// setInterval
+=======================================================
+
+// setInterval() method is used to repeat a specified function at every given time interval.
+
+console.log("script start");
+setInterval(() => {
+    console.log(Math.random());
+}, 1000);
+console.log("script end");
+
+// output:
+// script start
+// script end
+// random no. b/w 0-1 every second
+
+
+
+
+
+setInterval Example:
+=========================================
+==========================================
+
+setInterval.html
+===============================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="setInterval.css">
+    <script src="02-setInterval.js" defer></script>
+    <title>Set Interval Example</title>
+</head>
+<body>
+    <button>Stop Changing !!!</button>
+</body>
+</html>
+
+setInterval.css
+=============================
+button{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem 1.5rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 2rem;
+    box-shadow: 0px 0px 10px black;
+}
+button:hover{
+    box-shadow: 0px 0px 15px rgb(34, 27, 27);
+}
+
+setInterval.js
+======================================
+
+// setInterval
+
+// setInterval() method is used to repeat a specified function at every given time interval until clearInterval() is called.
+
+// clearInterval() method is used to clear/stop the set interval which has been set by setInterval().
+
+// console.log("script start");
+// setInterval(() => {
+//     console.log(Math.random());
+// }, 1000);
+// console.log("script end");
+
+// output:
+// script start
+// script end
+// random no. b/w 0-1 every second
+
+
+const body = document.body;
+const button = document.querySelector("button");
+
+const intervalId = setInterval(() => {
+    const red = Math.floor(Math.random() * 126);
+    const green = Math.floor(Math.random() * 126);
+    const blue = Math.floor(Math.random() * 126);
+    const rgb = `rgb(${red}, ${green}, ${blue})`;
+    body.style.background = rgb;
+}, 1000);
+
+button.addEventListener("click", () => {
+    clearInterval(intervalId);
+    button.textContent = body.style.background;
+})
+
+console.log(intervalId);
+
+
+
+
+
+
+// callback:
+=================================================================
+
+//  callback function is a function passed into another function as an argument.
+// calback function will execute after the completion of outer function
+
+// function myFunc(callback){
+//     console.log("func is doing task 1");
+//     callback();
+// }
+
+// function myFunc2(){
+//     console.log("func is doing task 2");
+// }
+
+// myFunc(myFunc2);
+
+
+// function myFunc3(callback){
+//     console.log("func is doing task 3");
+//     callback();
+// }
+
+// myFunc(function(){
+//     console.log("func is doing task 3");
+// })
+
+// myFunc3(() => {
+//     console.log("func is doing task 3");
+// })
+
+
+function getTwoNumbersAndAdd(number1, number2, onSuccess, onFailure){
+    if(typeof number1 === "number" && typeof number2 === "number"){
+        onSuccess(number1, number2);
+    }else{
+        onFailure();
+    }
+}
+
+// function addTwoNumbers(num1,num2){
+//     console.log(num1 + num2);
+// }
+
+getTwoNumbersAndAdd("4", 5, (num1, num2) => {
+    console.log(num1 + num2);
+}, () => {
+    console.log("Wrong Data Type");
+    console.log("please pass numbers only");
+});
+
+
+
+
+
+
+
+//  callbacks, callback hell, the pyramid of doom
+=========================================================================================
+// asynchronous programming
+
+const heading1 = document.querySelector(".heading1");
+const heading2 = document.querySelector(".heading2");
+const heading3 = document.querySelector(".heading3");
+const heading4 = document.querySelector(".heading4");
+const heading5 = document.querySelector(".heading5");
+const heading6 = document.querySelector(".heading6");
+const heading7 = document.querySelector(".heading7");
+const heading8 = document.querySelector(".heading8");
+const heading9 = document.querySelector(".heading9");
+const heading10 = document.querySelector(".heading10");
+const heading0 = document.querySelector(".heading");
+
+// setTimeout(() => {
+//     heading1.textContent = "Heading 1";
+//     heading1.style.color = "violet";
+//     setTimeout(() => {
+//         heading2.textContent = "Heading 2";
+//         heading2.style.color = "purple";
+//     }, 1000);
+// }, 1000);
+
+
+// Text       Delay   Color
+
+// one        1s      Violet
+// two        2s      purple
+// three      2s      red
+// four       1s      Pink
+// five       2s      green
+// six        3s      blue
+// seven      1s      brown
+
+// callback hell
+
+// setTimeout(() => {
+//     heading1.textContent = "one";
+//     heading1.style.color = "violet"; 
+//     setTimeout(() => {
+//         heading2.textContent = "two";
+//         heading2.style.color = "purple"; 
+//         setTimeout(() => {
+//             heading3.textContent = "three";
+//             heading3.style.color = "red"; 
+//             setTimeout(() => {
+//                 heading4.textContent = "four";
+//                 heading4.style.color = "pink"; 
+//                 setTimeout(() => {
+//                     heading5.textContent = "five";
+//                     heading5.style.color = "green"; 
+//                 }, 2000);
+//             }, 1000);
+//         }, 2000);
+//     }, 2000);
+// }, 1000);
+
+function changeText(element, text, color, time, onSuccessCallback, onFailureCallback){
+    setTimeout(() => {
+        if(element){
+            element.textContent = text;
+            element.style.color = color;
+            if(onSuccessCallback){
+                onSuccessCallback();
+            }
+        }else{
+            if(onFailureCallback){
+                onFailureCallback();
+            }
+        }
+    }, time);
+}
+
+// pyramid of doom
+
+changeText(heading1, "one", "violet", 3000, () => {
+    changeText(heading2, "two", "green", 2000, () => {
+        changeText(heading3, "three", "purple", 1000, () => {
+            changeText(heading4, "four", "red", 2000, () => {
+                changeText(heading5, "five", "cyan", 1000, () => {
+                    changeText(heading6, "six", "blue", 2000, () => {
+                        changeText(heading7, "seven", "violet", 2000, () => {
+                            changeText(heading8, "eight", "blue", 2000, () => {
+                                changeText(heading9, "nine", "orange", 1000, () => {
+                                    changeText(heading10, "ten", "yellow", 2000, () => {
+    
+                                    }, () => {console.log("Heading10 does not exist")});
+                                }, () => {console.log("Heading9 does not exist")});
+                            }, () => {console.log("Heading8 does not exist")});
+                        }, () => {console.log("Heading7 does not exist")});
+                    }, () => {console.log("Heading6 does not exist")});
+                }, () => {console.log("Heading5 does not exist")});
+            }, () => {console.log("Heading4 does not exist")});
+        }, () => {console.log("Heading3 does not exist")});
+    }, () => {console.log("Heading2 does not exist")});
+}, () => {console.log("Heading1 does not exist")});
+
+
+
+
+
+
+
+
+// Promises
+===============================================================================
+
+// Promise is a special JavaScript object. It is used to handle asynchronous operations.
+// it produce a value after asynchronous operation completes successfully or an error if it does not complete successfully.
+
+console.log("script start");
+
+
+const bucket = ['coffee', 'chips', 'vegetables', 'salt', 'rice'];
+
+const friedRicePromise = new Promise((resolve,reject) => {
+    if(bucket.includes("vegetables") && bucket.includes("salt") && bucket.includes("rice")){
+        resolve("Fried Rice");
+    }else{
+        reject("couldn't do it");
+    }
+})
+
+friedRicePromise.then((success) => {
+    console.log("let's eat ", success);
+}).catch((error) => {
+    console.log(error);
+})
+
+
+setTimeout(() => {
+    console.log("Hello from setTimeout");
+}, 0)
+
+
+for(let i = 1; i <= 10; i++){
+    console.log("....");
+}
+
+
+console.log("script end");
+
+
+// output:
+// script start
+// .... * 10
+// script end
+// let's eat  Fried Rice
+// Hello from setTimeout
+
+
+
+
+
+
+// function returning promise
+=========================================================================================
+
+function ricePromise(){
+    const bucket = ['coffee', 'chips', 'vegetables', 'salt', 'rice'];
+    return new Promise((resolve,reject) => {
+        if(bucket.includes("vegetables") && bucket.includes("salt") && bucket.includes("rice")){
+            resolve("Fried Rice");
+        }else{
+            reject("couldn't do it");
+        }
+    })
+}
+
+ricePromise().then((success) => {
+    console.log("let's eat ", success);
+}).catch((error) => {
+    console.log(error);
+})
+
+
+
+
+
+
+
+// Promise and setTimeout
+======================================================================================
+
+// I want to resolve / reject promise after 2 seconds
+
+function myPromise() {
+    return new Promise((resolve, reject) => {
+        const value = false;
+        setTimeout(() => {
+            if(value){
+                resolve();
+            }else{
+                reject();
+            }
+        }, 2000)
+    })
+}
+
+myPromise().then(() => {
+    console.log("resolved");
+}).catch(() => {
+    console.log("rejected");
+})
+
+
+
+
+
+
+
+// Promise.resolve
+// Promise chaining
+================================================================================
+
+// then():
+// then() method always returns the promise
+
+// const myPromise = Promise.resolve(5);
+// myPromise.then((value) => {
+//     console.log(value);  // 5
+// })
+
+
+// then():
+// then() method always returns the promise
+
+function myPromise() {
+    return new Promise((resolve, reject) => {
+        resolve("foo");
+    })
+}
+
+myPromise().then((value) => {
+    console.log(value);  // foo
+    value += "bar";
+    return value;  // foobar
+    // return Promise.resolve(value);  // foobar
+}).then((value) => {
+    console.log(value);  // foobar
+})
+
+
+
+
+
+
+
+
+
+// Callback hell to flat code 
+// refactor with promise
+============================================================================================
+
+const heading1 = document.querySelector(".heading1");
+const heading2 = document.querySelector(".heading2");
+const heading3 = document.querySelector(".heading3");
+const heading4 = document.querySelector(".heading4");
+const heading5 = document.querySelector(".heading5");
+const heading6 = document.querySelector(".heading6");
+const heading7 = document.querySelector(".heading7");
+const heading8 = document.querySelector(".heading8");
+const heading9 = document.querySelector(".heading9");
+const heading10 = document.querySelector(".heading10");
+
+
+function changeText(element, text, color, time){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if(element){
+                element.textContent = text;
+                element.style.color = color;
+                resolve();
+            }else{
+                reject("element not found");
+            }
+        }, time);
+    })
+}
+
+// const returnedPromise = changeText(heading1, "one", "red", 1000);
+
+// returnedPromise.then(() => {
+//     return changeText(heading2, "two", "purple", 1000);
+// });
+
+changeText(heading1, "one", "red", 1000).then(() => {
+    return changeText(heading2, "two", "blue", 1000)
+}).then(() => {
+    return changeText(heading3, "three", "orange", 1000)
+}).then(() => {
+    return changeText(heading4, "four", "purple", 1000)
+}).then(() => {
+    return changeText(heading5, "five", "blue", 1000)
+}).then(() => {
+    return changeText(heading6, "six", "red", 1000)
+}).then(() => {
+    return changeText(heading7, "seven", "purple", 1000)
+}).then(() => {
+    return changeText(heading8, "eight", "yellow", 1000)
+}).then(() => {
+    return changeText(heading9, "nine", "yellow", 1000)
+}).then(() => {
+    return changeText(heading10, "ten", "yellow", 1000)
+}).catch((error) => {
+    alert(error);
+})
+
+
+
+
+
+
+
+// AJAX BASIC THEORY 
+========================================================================
+
+// AJAX : asynchronous javascript and XML
+
+// HTTP request
+
+// AJAX is a set of "web development techniques" 
+// using many web technologies on the "client-side "
+// to create asynchronous web applications. 
+
+
+// With Ajax, web applications can send and retrieve 
+// data from a server asynchronously (in the background) 
+// without interfering with the display and 
+// behaviour of the existing page
+
+// We don't use data in XML format anymore. 
+// we use JSON now. 
+
+
+// we have 3 most common ways to create and send request to server
+// 1.) xmlHTTPRequest (old way of doing)
+// 2.) fetch API (new way of doing)
+// 3.) axios (this is third party library)
+
+
+
+
+
+
+// XHR (XML HTTP Request)
+============================================================================
+
+// XMLHttpRequest is an API in the form of object. it is used to transfer data between client and server.
+
+
+const URL = "https://jsonplaceholder.typicode.com/posts";
+
+const xhr = new XMLHttpRequest();
+// console.log(xhr);
+
+// step1
+// console.log(xhr.readyState);
+xhr.open("GET", URL);
+// console.log(xhr.readyState);
+// xhr.onreadystatechange = function(){
+//     // console.log(xhr.readyState);
+//     if(xhr.readyState === 4){
+//         // console.log(xhr);
+//         // console.log(xhr.readyState);
+//         // console.log(xhr.response);
+//         // console.log(typeof xhr.response);
+//         if(xhr.readyState === 4){
+//             const response = xhr.response;
+//             const data = JSON.parse(response);
+//             console.log(data);
+//             console.log(typeof data);
+//         }
+//     }
+// }
+
+xhr.onload = function(){
+    // console.log(xhr.readyState);  // 4
+    const response = xhr.response;
+    const data = JSON.parse(response);
+    console.log(data);
+}
+
+xhr.send();
+
+
+
+
+
+// XHR practice and error handling
+=====================================================================================
+
+const URL = "https://jsonplaceholder.typicode.com/posts";
+
+const xhr = new XMLHttpRequest();
+
+xhr.open("GET", URL);
+xhr.onload = () => {
+    if(xhr.status >= 200 && xhr.status < 300){
+        const data = JSON.parse(xhr.response);
+        console.log(data);
+        const id = data[3].id;
+        console.log(id);
+    }else{
+        console.log("something went wrong");
+    }
+}
+
+xhr.onerror = () => {
+    console.log("network error");
+}
+
+xhr.send();
+
+
+
+
+
+
+
+
+// XHR using promises
+=====================================================================
+
+const URL = "https://jsonplaceholder.typicode.com/posts";
+
+function sendRequest(method, url){
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+
+        xhr.onload = function(){
+            if(xhr.status >= 200 && xhr.status < 300){
+                resolve(xhr.response);
+            }else{
+                reject(new Error("Something went wrong"));
+            }
+        }
+
+        xhr.onerror = function(){
+            reject(new Error("Something went wrong"));
+        }
+
+        xhr.send();
+    })
+}
+
+sendRequest("GET", URL).then((response) => {
+    const data = JSON.parse(response);
+    console.log(data);
+    return data;
+}).then((data) => {
+    console.log(data);
+    console.log(data[3]);
+    // console.log(data[3].id);
+    const id = data[3].id;
+    return id;
+}).then((id) => {
+    console.log(id);
+    const url = `${URL}/${id}`;
+    console.log(url);
+    return sendRequest("GET", url);
+}).then((newResponse) => {
+    console.log(newResponse);
+    const newData = JSON.parse(newResponse);
+    console.log(newData);
+}).catch((error) => {
+    console.log(error);
+})
+
+
+
+
+
+
+// Fetch API
+==============================================================
+
+// fetch() method is used to request data from server. and fetch() method returns a promise.
+// the request can be of any type of API that returns data in JSON format
+
+const URL = "https://jsonplaceholder.typicode.com/posts";
+
+fetch(URL, {
+    method: 'POST',
+    body: JSON.stringify({
+        title: 'foo',
+        body: 'bar',
+        userId: 1,
+    }),
+    headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+    },
+}).then((response) => {
+    console.log(response);
+    if(response.ok){
+        return response.json();
+    }else{
+        throw new Error("Something went wrong!!!");
+    }
+}).then((data) => {
+    console.log(data);
+}).catch((error) => {
+    console.log("inside catch");
+    console.log(error);
+})
+
+
+
+
+
+
+// async await
+========================================================================================
+
+// async function is a function that is declared with async keyword.
+// await keyword is used inside async function and it is used to wait for the promise.
+
+const URL = "https://jsonplaceholder.typicode.com/posts";
+
+// fetch(URL).then((response) => {
+//     return response.json();
+// }).then((data) => {
+//     console.log(data);
+// })
+
+// async function getPosts(){
+//     const response = await fetch(URL);
+//     if(!response.ok){
+//         throw new Error("Something went wrong");
+//     }
+//     const data = await response.json();
+//     // console.log(data);
+//     return data;
+// }
+
+const getPosts = async() => {
+    const response = await fetch(URL);
+    if(!response.ok){
+        throw new Error("Something went wrong");
+    }
+    const data = await response.json();
+    // console.log(data);
+    return data;
+}
+
+// const myData = getPosts();
+// console.log(myData);
+
+getPosts().then((myData) => {
+    console.log(myData);
+}).catch((error) => {
+    console.log(error);
+})
+
+
+
+
+
+
+
